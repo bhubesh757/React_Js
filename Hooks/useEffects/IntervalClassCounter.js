@@ -1,30 +1,38 @@
-import React , { useState , useEffect}from 'react'
+import React, { Component } from 'react'
 
-function IntervalHookcounter() {
-    const [count, setcount] = useState(0)
-
-    const tick = () => {
-        // setcount(count + 1)
-        setcount(prevCount => prevCount + 1)
+export class IntervalClassCounter extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             count : 0
+        }
     }
 
-    useEffect(() => {
-        const interval = setInterval(tick , 1000)
-        return () => {
-            clearInterval(interval)
-        }
-    }, [])
-    return (
-        <div>
-            <h1> {count} </h1>
-        </div>
-    )
+    componentDidMount() {
+        this.interval = setInterval(this.tick , 1000)
+    }
+    
+    componentWillUnmount () {
+        clearInterval(this.interval)
+    }
+
+    tick = () => {
+        this.setState({
+            count : this.state.count + 1
+        })
+    }
+
+    render() {
+        return (
+            <h1>
+                {this.state.count}
+            </h1>
+        )
+    }
 }
 
-export default IntervalHookcounter
+export default IntervalClassCounter
 
 
-// Empty dependency array ,means [] in useEffect
-
-
-// In this example, useEffect is passed an empty array, []. Hence, the effect function will be called only on mount.
+// the number in increases automatically
